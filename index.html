@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Masai Doctor Records</title>
+  </head>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+    }
+
+    form {
+        margin-bottom: 20px;
+    }
+
+    input, select {
+        margin: 5px;
+        padding: 8px;
+    }
+
+    input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        cursor: pointer;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    button {
+        background-color: #f44336;
+        color: white;
+        padding: 6px;
+        cursor: pointer;
+    }
+</style>
+  <body>
+    <!-- Use this form for data input  -->
+    <form>
+      <input placeholder="Name" type="text" id="name" />
+      <input placeholder="Doctor ID" type="text" id="doctor_id" />
+      <select id="specialization">
+         <!-- <option value="">Select Specialization</option>  -->
+        <option value="Dermatologist">Dermatologist</option>
+        <option value="Dentist">Dentist</option>
+        <option value="Gynecologist">Gynecologist</option>
+      </select>
+      <input placeholder="Experience" type="number" id="experience" />
+      <input placeholder="Email" type="email" id="email" />
+      <input placeholder="Mobile No." type="number" id="mobile" />
+      <input type="submit" value="Submit" />
+    </form>
+
+    <!-- Use this Select tag for filter part  -->
+    <select id="filter">
+      <option value="">Select Specialization</option>
+      <option value="Dermatologist">Dermatologist</option>
+      <option value="Dentist">Dentist</option>
+      <option value="Gynecologist">Gynecologist</option>
+    </select>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Doctor ID</th>
+          <th>Specialization</th>
+          <th>Experience in Years</th>
+          <th>Email</th>
+          <th>Mobile No</th>
+          <th>Role</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+
+
+       </tbody>
+    </table>
+  </body>
+  
+  
+
+<script>
+      const form = document.querySelector('form');
+
+      const tbody = document.querySelector('tbody');
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const name = document.querySelector('#name').value;
+        const doctorId = document.querySelector('#doctor_id').value;
+        const specialization = document.querySelector('#specialization').value;
+        const experience = document.querySelector('#experience').value;
+        const email = document.querySelector('#email').value;
+        const mobileNumber = document.querySelector('#mobile').value; 
+
+        const role = experience > 5 ? 'Senior' : experience >= 2 ? 'Junior' : 'Trainee';
+
+        const tr = document.createElement('tr');
+
+        const tdName = document.createElement('td');
+        const tdDoctorId = document.createElement('td');
+        const tdSpecialization = document.createElement('td');
+        const tdExperience = document.createElement('td');
+        const tdEmail = document.createElement('td');
+        const tdMobileNumber = document.createElement('td');
+        const tdRole = document.createElement('td');
+        const tdDelete = document.createElement('td');
+
+        tdName.textContent = name;
+        tdDoctorId.textContent = doctorId;
+        tdSpecialization.textContent = specialization;
+        tdExperience.textContent = experience;
+        tdEmail.textContent = email;
+        tdMobileNumber.textContent = mobileNumber;
+        tdRole.textContent = role;
+
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.addEventListener('click', () => {
+          tr.remove();
+        });
+
+        tr.appendChild(tdName);
+        tr.appendChild(tdDoctorId);
+        tr.appendChild(tdSpecialization);
+        tr.appendChild(tdExperience);
+        tr.appendChild(tdEmail);
+        tr.appendChild(tdMobileNumber);
+        tr.appendChild(tdRole);
+        tr.appendChild(tdDelete);
+
+        tbody.appendChild(tr);
+      });
+
+      document.querySelector('#filter').addEventListener('change', () => {
+        const selectedSpecialization = document.querySelector('#filter').value;
+
+        const tableRows = tbody.querySelectorAll('tr');
+        tableRows.forEach((tr) => {
+          tr.hidden = true;
+        });
+
+        
+        if (selectedSpecialization !== '') {
+          tableRows.forEach((tr) => {
+            const specializationCell = tr.querySelector('td:nth-child(3)');
+            if (specializationCell.textContent === selectedSpecialization) {
+              tr.hidden = false;
+            }
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
